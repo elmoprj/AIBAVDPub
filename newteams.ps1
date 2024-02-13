@@ -31,34 +31,52 @@ if((Test-Path $teamstemppath) -eq $false) {
 
 
 
-Set-Location -path $teamstemppath
+#Set-Location -path $teamstemppath
 
-New-Item -Path HKLM:\SOFTWARE\Microsoft -Name "Teams" 
-                $registryPath = "HKLM:\SOFTWARE\Microsoft\Teams"
-                $registryKey = "IsWVDEnvironment"
-                $registryValue = "1"
-                Set-RegKey -registryPath $registryPath -registryKey $registryKey -registryValue $registryValue 
+Write-Host "AVD AIB Customization - Install Teams: Setting reg key"
 
+if((Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Teams -Name "IsWVDEnvironment") -eq $false) 
+    {
+        New-Item -Path HKLM:\SOFTWARE\Microsoft -Name "Teams" 
+        $registryPath = "HKLM:\SOFTWARE\Microsoft\Teams"
+        $registryKey = "IsWVDEnvironment"
+        $registryValue = "1"
+        Set-RegKey -registryPath $registryPath -registryKey $registryKey -registryValue $registryValue
+    }
+else
+    {
+    Write-Host "AVD AIB Customization - Install Teams: Key already present"
+    }
 
 #install Edge WebView2
-Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/p/?LinkId=2124703" -OutFile $teamstemppath\webview2.exe
+Write-Host "AVD AIB Customization - Install Teams: Downloading Edge WevView2"
 
+Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/p/?LinkId=2124703" -OutFile $teamstemppath\webview2.exe -PassThru
 
+Write-Host "AVD AIB Customization - Install Teams: Installing Edge WevView2"
 $webview_deploy_status = Start-Process `
     -FilePath "$teamstemppath\webview2.exe" `
     -ArgumentList "/silent /install" `
     -Wait `
     -Passthru
 
-#install Teams
-Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409" -OutFile $teamstemppath\teamsbootstrapper.exe
+#install Edge New Teams
+Write-Host "AVD AIB Customization - Install Teams: Downloading New Teams Bootstrapper"
+
+Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409" -OutFile $teamstemppath\teamsbootstrapper.exe -PassThru
+
+
+Write-Host "AVD AIB Customization - Install Teams: Installing New Teams"
 
 $NewTeams_deploy_status = Start-Process `
-    -FilePath "$teamstemppathteamsbootstrapper.exe" `
+    -FilePath "$teamstemppath\teamsbootstrapper.exe" `
     -ArgumentList "-p" `
     -Wait `
     -Passthru
 
 #cleanup
+Write-Host "AVD AIB Customization - Install Teams: Cleaning up"
+
+Set-Location c:\
   if ((Test-Path -Path $teamstemppath -ErrorAction SilentlyContinue)) {
                 Remove-Item -Path $teamstemppath -Force -Recurse -ErrorAction Continue}
