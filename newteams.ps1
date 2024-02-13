@@ -63,8 +63,9 @@ $webview_deploy_status = Start-Process `
 #install Edge New Teams
 Write-Host "AVD AIB Customization - Install Teams: Downloading New Teams Bootstrapper"
 
-Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409" -OutFile $teamstemppath\teamsbootstrapper.exe -PassThru
-
+Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2196106&clcid=0x410&culture=it-it&country=it" -OutFile $teamstemppath\teamsbootstrapper.exe -PassThru
+# it https://go.microsoft.com/fwlink/?linkid=2196106&clcid=0x410&culture=it-it&country=it
+#eng https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409
 
 Write-Host "AVD AIB Customization - Install Teams: Installing New Teams"
 
