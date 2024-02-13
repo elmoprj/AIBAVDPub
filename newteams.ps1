@@ -41,7 +41,7 @@ New-Item -Path HKLM:\SOFTWARE\Microsoft -Name "Teams"
 
 
 #install Edge WebView2
-Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?LinkId=2124703 -OutFile c:\temp\webview2.exe
+Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?LinkId=2124703 -OutFile $teamstemppath\webview2.exe
 
 
 $webview_deploy_status = Start-Process `
@@ -51,7 +51,7 @@ $webview_deploy_status = Start-Process `
     -Passthru
 
 #install Teams
-Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409" -OutFile c:\temp\teamsbootstrapper.exe
+Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409" -OutFile $teamstemppath\teamsbootstrapper.exe
 
 $NewTeams_deploy_status = Start-Process `
     -FilePath "$teamstemppathteamsbootstrapper.exe" `
