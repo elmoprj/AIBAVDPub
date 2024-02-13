@@ -53,16 +53,13 @@ $webview_deploy_status = Start-Process `
 Write-Host "AVD AIB Customization - Install Teams: Downloading New Teams Bootstrapper"
 
 Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409" -OutFile $teamstemppath\teamsbootstrapper.exe -PassThru
-Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409" -OutFile $teamstemppath\MSTeams-x64.msix -PassThru
 
-# MSIX it https://go.microsoft.com/fwlink/?linkid=2196106&clcid=0x410&culture=it-it&country=it
-#bootstrapper https://go.microsoft.com/fwlink/?linkid=2243204&clcid=0x409
 
 Write-Host "AVD AIB Customization - Install Teams: Installing New Teams"
 
 $NewTeams_deploy_status = Start-Process `
     -FilePath "$teamstemppath\teamsbootstrapper.exe" `
-    -ArgumentList "-p -o $teamstemppath\MSTeams-x64.msix" `
+    -ArgumentList "-p" `
     -Wait `
     -Passthru
 
