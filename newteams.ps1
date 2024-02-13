@@ -41,7 +41,7 @@ New-Item -Path HKLM:\SOFTWARE\Microsoft -Name "Teams"
 
 
 #install Edge WebView2
-Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?LinkId=2124703 -OutFile $teamstemppath\webview2.exe
+Invoke-WebRequest -Uri "https://go.microsoft.com/fwlink/p/?LinkId=2124703" -OutFile $teamstemppath\webview2.exe
 
 
 $webview_deploy_status = Start-Process `
